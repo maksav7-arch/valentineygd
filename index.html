@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Валентинка 💖</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+      overflow: hidden;
+    }
+    .card {
+      background: #fff;
+      padding: 30px 40px;
+      margin: 20px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      animation: pop 0.8s ease;
+      position: relative;
+      z-index: 2;
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      margin: 0 0 10px;
+      color: #ff4d6d;
+      font-size: clamp(24px, 8vw, 36px);
+    }
+    p {
+      font-size: 18px;
+      color: #444;
+      min-height: 1.5em;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 26px;
+      font-size: 16px;
+      border: none;
+      border-radius: 30px;
+      background: #ff4d6d;
+      color: #fff;
+      cursor: pointer;
+      transition: transform .15s ease, background .15s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    button:hover {
+      transform: scale(1.06);
+      background: #ff2f55;
+    }
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 22px;
+      animation: float linear infinite;
+      opacity: 0.85;
+      pointer-events: none;
+      user-select: none;
+    }
+    @keyframes float {
+      0%   { transform: translateY(0) scale(1);   opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.6); opacity: 0; }
+    }
+    @keyframes pop {
+      from { transform: scale(.85); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Для тебя 💕</h1>
+    <p id="text">Ты делаешь мой мир ярче ✨</p>
+    <button id="btn">Нажми меня</button>
+  </div>
+
+  <script>
+    const messages = [
+      "Ты моя любимая улыбка 😊",
+      "С тобой каждый день особенный 💫",
+      "Я думаю о тебе чаще, чем кажется 💭",
+      "Ты — моё сердечко ❤️",
+      "Хочу быть рядом с тобой 💞"
+    ];
+
+    const textEl = document.getElementById("text");
+    const btn = document.getElementById("btn");
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (3 + Math.random() * 3) + "s";
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    btn.addEventListener("click", () => {
+      const i = Math.floor(Math.random() * messages.length);
+      textEl.textContent = messages[i];
+      // При нажатии вылетает сразу пачка сердечек
+      for (let k = 0; k < 8; k++) {
+        setTimeout(createHeart, k * 100);
+      }
+    });
+
+    // Постоянный легкий дождь из сердечек на фоне
+    setInterval(createHeart, 700);
+  </script>
+</body>
+</html>
