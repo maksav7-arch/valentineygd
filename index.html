@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -71,14 +71,27 @@
       from { transform: scale(.85); opacity: 0; }
       to   { transform: scale(1);   opacity: 1; }
     }
+
+    /* маленькая кнопка музыки (опционально) */
+    .music-btn {
+      margin-left: 8px;
+      background: #ffd1da;
+      color: #ff2f55;
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>Для тебя 💕</h1>
     <p id="text">Ты делаешь мой мир ярче ✨</p>
-    <button id="btn">Нажми меня</button>
+    <div>
+      <button id="btn">Нажми меня</button>
+      <button id="musicBtn" class="music-btn">🔊 Музыка</button>
+    </div>
   </div>
+
+  <!-- Музыка -->
+  <audio id="music" src="Frank.mp3" loop></audio>
 
   <script>
     const messages = [
@@ -91,6 +104,10 @@
 
     const textEl = document.getElementById("text");
     const btn = document.getElementById("btn");
+    const music = document.getElementById("music");
+    const musicBtn = document.getElementById("musicBtn");
+
+    let musicStarted = false;
 
     function createHeart() {
       const heart = document.createElement("div");
@@ -105,13 +122,31 @@
     btn.addEventListener("click", () => {
       const i = Math.floor(Math.random() * messages.length);
       textEl.textContent = messages[i];
-      // При нажатии вылетает сразу пачка сердечек
+
+      // старт музыки при первом клике
+      if (!musicStarted) {
+        music.play().catch(()=>{});
+        musicStarted = true;
+        musicBtn.textContent = "🔇 Музыка";
+      }
+
       for (let k = 0; k < 8; k++) {
         setTimeout(createHeart, k * 100);
       }
     });
 
-    // Постоянный легкий дождь из сердечек на фоне
+    // кнопка вкл/выкл музыку
+    musicBtn.addEventListener("click", () => {
+      if (music.paused) {
+        music.play().catch(()=>{});
+        musicBtn.textContent = "🔇 Музыка";
+      } else {
+        music.pause();
+        musicBtn.textContent = "🔊 Музыка";
+      }
+    });
+
+    // фоновые сердечки
     setInterval(createHeart, 700);
   </script>
 </body>
